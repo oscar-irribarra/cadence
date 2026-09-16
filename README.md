@@ -71,6 +71,8 @@ pnpm build   # salida en dist/cadence/browser
 
 Vercel detecta pnpm automáticamente; el deploy provee HTTPS, requisito de Web Bluetooth.
 
+El proyecto incluye **Vercel Analytics** y **Speed Insights** (inyectados en `src/main.ts`). Para empezar a recoger datos, activa las pestañas *Analytics* y *Speed Insights* del proyecto en el panel de Vercel tras el deploy. En local se ejecutan en modo desarrollo (logs, sin envío).
+
 ## Arquitectura
 
 ```

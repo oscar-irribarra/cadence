@@ -19,6 +19,10 @@ PWA Angular 22 (pnpm + Tailwind v4 + `@angular/pwa`) que lee cadencia (RPM) del 
 - Intercambio de implementaciones solo en `app.config.ts` (tokens `CADENCE_SENSOR` y `RIDE_REPOSITORY`).
 - UI en español; componentes con template inline (solo `.ts`).
 
+## Analytics
+
+- `src/main.ts` inyecta Vercel Analytics y Speed Insights (`inject` / `injectSpeedInsights` del paquete vanilla). Solo recogen datos desplegados en Vercel y con las pestañas activadas en el panel del proyecto; en dev local corren en modo desarrollo (logs, sin envío).
+
 ## Protocolo BLE del BK467
 
 - GATT: servicio `0x1816` (CSC), característica `0x2A5B` (notify).
