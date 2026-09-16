@@ -33,6 +33,10 @@ PWA Angular 22 (pnpm + Tailwind v4 + `@angular/pwa`) que lee cadencia (RPM) del 
 - Safari iOS no soporta Web Bluetooth. En iPhone usar **Bluefy** o la extensión **beacio/iOSWebBLE**; ambos requieren HTTPS.
 - Los tipos de `@types/web-bluetooth` deben permanecer en `types` de `tsconfig.app.json` y `tsconfig.spec.json` (el CLI genera `"types": []`).
 
+## Gotchas de pnpm
+
+- pnpm 11 bloquea los build scripts de dependencias nativas (esbuild, lmdb, etc.) y en CI/Vercel falla con `ERR_PNPM_IGNORED_BUILDS`. Los permitidos se declaran en `pnpm-workspace.yaml` con `allowBuilds:` (el campo `pnpm` de package.json ya no se lee en pnpm 11).
+
 ## Gotchas de tests
 
 - Node 26 define un `globalThis.localStorage` experimental que devuelve `undefined` y eclipsa el de jsdom; los specs deben stubearlo con `vi.stubGlobal` (ver `local-storage-ride.repository.spec.ts`).
