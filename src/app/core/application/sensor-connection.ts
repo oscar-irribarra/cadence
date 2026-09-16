@@ -10,6 +10,8 @@ export class SensorConnection {
 
   readonly state = signal<SensorConnectionState>('disconnected');
   readonly deviceName = signal<string | null>(null);
+  readonly deviceModel = signal<string | null>(null);
+  readonly deviceManufacturer = signal<string | null>(null);
   readonly error = signal<string | null>(null);
   readonly rpm = signal<number | null>(null);
   readonly speedModeDetected = signal(false);
@@ -20,6 +22,7 @@ export class SensorConnection {
 
   constructor() {
     this.sensor.subscribe((event) => this.handleEvent(event));
+    void this.autoConnect();
   }
 
   async connect(): Promise<void> {
@@ -33,11 +36,24 @@ export class SensorConnection {
     this.sensor.disconnect();
   }
 
+  private async autoConnect(): Promise<void> {
+    if (!this.bluetoothSupported()) {
+      return;
+    }
+    try {
+      await this.sensor.autoConnect();
+    } catch {
+      return;
+    }
+  }
+
   private handleEvent(event: CadenceSensorEvent): void {
     switch (event.kind) {
       case 'connection':
         this.state.set(event.state);
         this.deviceName.set(event.deviceName);
+        this.deviceModel.set(event.model);
+        this.deviceManufacturer.set(event.manufacturer);
         this.error.set(event.error);
         if (event.state !== 'connected') {
           this.rpm.set(null);

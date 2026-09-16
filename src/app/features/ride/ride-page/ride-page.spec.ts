@@ -17,6 +17,10 @@ class StubCadenceSensor implements CadenceSensorPort {
     return Promise.resolve();
   }
 
+  autoConnect(): Promise<boolean> {
+    return Promise.resolve(false);
+  }
+
   disconnect(): void {}
 
   subscribe(listener: (event: CadenceSensorEvent) => void): Unsubscribe {
@@ -64,11 +68,36 @@ describe('RidePage', () => {
     expect(fixture.nativeElement.textContent).toContain('--');
   });
 
+  it('shows the sensor model once connected', async () => {
+    const fixture = TestBed.createComponent(RidePage);
+    await fixture.whenStable();
+
+    sensor.emit({
+      kind: 'connection',
+      state: 'connected',
+      deviceName: 'BK467',
+      model: 'BK467',
+      manufacturer: 'CooSpo',
+      error: null,
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.textContent).toContain('CooSpo BK467');
+  });
+
   it('shows cadence values emitted by the sensor', async () => {
     const fixture = TestBed.createComponent(RidePage);
     await fixture.whenStable();
 
-    sensor.emit({ kind: 'connection', state: 'connected', deviceName: 'BK467', error: null });
+    sensor.emit({
+      kind: 'connection',
+      state: 'connected',
+      deviceName: 'BK467',
+      model: null,
+      manufacturer: null,
+      error: null,
+    });
     sensor.emit({ kind: 'cadence', rpm: 90 });
     fixture.detectChanges();
     await fixture.whenStable();

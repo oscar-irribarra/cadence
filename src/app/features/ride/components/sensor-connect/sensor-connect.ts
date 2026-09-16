@@ -51,6 +51,8 @@ import { SensorConnectionState } from '../../../../core/domain/models/sensor-con
 export class SensorConnect {
   readonly state = input.required<SensorConnectionState>();
   readonly deviceName = input<string | null>(null);
+  readonly model = input<string | null>(null);
+  readonly manufacturer = input<string | null>(null);
   readonly notice = input<string | null>(null);
 
   readonly connect = output<void>();
@@ -79,6 +81,12 @@ export class SensorConnect {
       return 'Conectando…';
     }
     if (this.connected()) {
+      const deviceParts = [this.manufacturer(), this.model()].filter(
+        (part): part is string => part !== null && part.length > 0,
+      );
+      if (deviceParts.length > 0) {
+        return deviceParts.join(' ');
+      }
       return this.deviceName() ?? 'Sensor conectado';
     }
     if (this.errored()) {

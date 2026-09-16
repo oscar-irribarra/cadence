@@ -21,6 +21,8 @@ const SPEED_MODE_NOTICE =
       <app-sensor-connect
         [state]="sensor.state()"
         [deviceName]="sensor.deviceName()"
+        [model]="sensor.deviceModel()"
+        [manufacturer]="sensor.deviceManufacturer()"
         [notice]="notice()"
         (connect)="sensor.connect()"
         (disconnect)="sensor.disconnect()"

@@ -27,6 +27,8 @@ PWA Angular 22 (pnpm + Tailwind v4 + `@angular/pwa`) que lee cadencia (RPM) del 
 - Sin eventos de biela durante 3 s → RPM 0 (coasting).
 - Una unidad mide velocidad O cadencia (se cambia reinstalando la batería; LED azul = cadencia). Si solo llegan datos de rueda se muestra el aviso de "modo velocidad".
 - Emparejar siempre desde la app (`requestDevice`), nunca desde los ajustes Bluetooth del sistema.
+- Tras conectar se lee el Device Information Service (`0x180A`: modelo `0x2A24`, fabricante `0x2A29`) para mostrar el nombre del sensor; es best-effort (si falla se usa el nombre Bluetooth).
+- Al arrancar se intenta auto-conexión con `navigator.bluetooth.getDevices()` (Chrome/Edge, requiere autorización previa); sin `getDevices` se usa el botón.
 
 ## Gotchas de iOS
 

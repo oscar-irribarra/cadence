@@ -5,6 +5,8 @@ PWA en Angular que se conecta por Web Bluetooth al sensor **COOSPO BK467** para 
 ## Características
 
 - Conexión al sensor BLE con un toque (perfil estándar Cycling Speed and Cadence).
+- Reconexión automática al abrir la app si ya autorizaste el sensor (requiere `navigator.bluetooth.getDevices()`: Chrome/Edge; en iOS puede no estar disponible).
+- Muestra fabricante y modelo del sensor (leídos del servicio Bluetooth Device Information).
 - Medidor circular de RPM en tiempo real (escala 0–200 RPM).
 - Grabación de rodadas: RPM mínima, máxima, promedio y duración.
 - Historial de rodadas guardado en el dispositivo (localStorage).
@@ -43,7 +45,7 @@ Para probar con el sensor real en desarrollo, cambia `useMockSensor` a `false` e
 ## Uso con el sensor BK467
 
 1. Instala el sensor en la **biela** (modo cadencia). Al reinstalar la batería, el **LED azul** confirma el modo cadencia (rojo = velocidad).
-2. Pulsa **Conectar sensor** y elige el BK467 en el diálogo del navegador. Empareja siempre desde la app, nunca desde los ajustes Bluetooth del sistema.
+2. Pulsa **Conectar sensor** y elige el BK467 en el diálogo del navegador. Empareja siempre desde la app, nunca desde los ajustes Bluetooth del sistema. Desde la próxima visita, la app intentará reconectar sola al abrirse; si no lo logra (sensor apagado o navegador sin soporte), usa el botón.
 3. Pulsa **Iniciar rodada** para grabar; al detenerla se guarda en el historial (se guardan solo las rodadas con muestras de cadencia).
 
 > Una unidad BK467 mide velocidad **o** cadencia, no ambas a la vez. Si necesitas las dos, usa dos sensores.

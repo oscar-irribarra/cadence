@@ -15,7 +15,14 @@ export class MockCadenceSensor implements CadenceSensorPort {
   private sampleIndex = 0;
 
   async connect(): Promise<void> {
-    this.emit({ kind: 'connection', state: 'connecting', deviceName: null, error: null });
+    this.emit({
+      kind: 'connection',
+      state: 'connecting',
+      deviceName: null,
+      model: null,
+      manufacturer: null,
+      error: null,
+    });
     await new Promise((resolve) => setTimeout(resolve, CONNECT_DELAY_MS));
 
     this.sampleIndex = 0;
@@ -25,12 +32,30 @@ export class MockCadenceSensor implements CadenceSensorPort {
       this.emit({ kind: 'cadence', rpm });
     }, SAMPLE_INTERVAL_MS);
 
-    this.emit({ kind: 'connection', state: 'connected', deviceName: 'BK467 (simulado)', error: null });
+    this.emit({
+      kind: 'connection',
+      state: 'connected',
+      deviceName: 'BK467 (simulado)',
+      model: 'BK467 (simulado)',
+      manufacturer: null,
+      error: null,
+    });
+  }
+
+  autoConnect(): Promise<boolean> {
+    return Promise.resolve(false);
   }
 
   disconnect(): void {
     this.stopSampling();
-    this.emit({ kind: 'connection', state: 'disconnected', deviceName: null, error: null });
+    this.emit({
+      kind: 'connection',
+      state: 'disconnected',
+      deviceName: null,
+      model: null,
+      manufacturer: null,
+      error: null,
+    });
   }
 
   subscribe(listener: (event: CadenceSensorEvent) => void): Unsubscribe {
